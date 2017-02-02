@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "base_ami": "ami-da70d2b9"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "ap-southeast-1",
+    "source_ami": "{{user `base_ami`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "bitnami",
+    "ssh_pty" : "true",
+    "ami_name": "Ubuntu MEAN stack",
+    "ami_description": "Bitnami MEAN stack with CodeDeploy Agent",
+    "tags": {
+        "Role": "packer-application-server"
+    }
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install software-properties-common",
+        "sudo apt-add-repository -y universe",
+        "sudo apt-add-repository -y ppa:brightbox/ruby-ng"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get -y install python-pip ruby2.3 wget",
+        "wget https://aws-codedeploy-ap-southeast-1.s3.amazonaws.com/latest/install",
+        "chmod +x ./install",
+        "sudo ./install auto",
+        "sudo service codedeploy-agent status",
+        "rm install"
+      ]
+    }
+  ]
+}
