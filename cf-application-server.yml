@@ -40,6 +40,13 @@ Resources:
           ToPort: "22"
           CidrIp: "0.0.0.0/0"
 
+  CodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Condition: CreateCodeDeployApp
+    Properties:
+      ApplicationName: 
+        Ref: TrainerName
+
 Outputs:
   PublicIP:
     Description: "Public IP"
