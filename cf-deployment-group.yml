@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Application Server with public ip
+Parameters:
+  YourName:
+    Default: change-me
+    Description: "Your name"
+    Type: String  
+  TrainerName:
+    Default: change-me
+    Description: "Trainer name"
+    Type: String
+Resources:
+  DeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: CDC-deploy
+      DeploymentConfigName: CodeDeployDefault.OneAtATime
+      ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
+      DeploymentGroupName: 
+        Ref: YourName
+      Ec2TagFilters:
+      - Key: Name
+        Type: KEY_AND_VALUE
+        Value: 
+          Ref: TrainerName
