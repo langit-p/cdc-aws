@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CI Server using jenkins with public ip
+Resources:
+  CIServer: #An inline comment
+    Type: "AWS::EC2::Instance"
+    Properties: 
+      ImageId: "ami-dafd49b9" # ci server
+      InstanceType: t2.small
+      KeyName: "mitrais-ap-southeast-1"
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress : true
+          DeviceIndex: 0
+          DeleteOnTermination: true
+          SubnetId: "subnet-c35286b4"
+          GroupSet: 
+            - Ref: CISecurityGroup
+      Tags:
+        - Key: Name
+          Value: CI-Server
+
+  CISecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable port 8080 and 9000"
+      VpcId: "vpc-fe48829b"
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          FromPort: "8080"
+          ToPort: "8080"
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: "9000"
+          ToPort: "9000"
+          CidrIp: "0.0.0.0/0"
+        - IpProtocol: "tcp"
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: "0.0.0.0/0"
+Outputs:
+  PublicIP:
+    Description: "Public IP"
+    Value: !GetAtt CIServer.PublicIp
+  PublicDnsName:
+    Description: "Public DNS Name"
+    Value: !GetAtt CIServer.PublicDnsName
