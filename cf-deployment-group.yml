@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Application Server with public ip
 Parameters:
-  YourName:
+  GroupName:
     Default: change-me
     Description: "Your name"
     Type: String  
@@ -17,7 +17,7 @@ Resources:
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
       DeploymentGroupName: 
-        Ref: YourName
+        Ref: GroupName
       Ec2TagFilters:
       - Key: Name
         Type: KEY_AND_VALUE
