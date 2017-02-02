@@ -1,5 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Application Server with public ip
+Parameters:
+  TrainerName:
+    Default: change-me
+    Description: "Trainer name"
+    Type: String
 Resources:
   ApplicationServer:
     Type: "AWS::EC2::Instance"
@@ -7,6 +12,7 @@ Resources:
       ImageId: "ami-acd367cf" # default to LAMP stack
       InstanceType: t2.micro
       KeyName: "mitrais-ap-southeast-1"
+      IamInstanceProfile: CodeDeploy
       NetworkInterfaces: 
         - AssociatePublicIpAddress : true
           DeviceIndex: 0
@@ -16,7 +22,8 @@ Resources:
             - Ref: ApplicationSecurityGroup
       Tags:
         - Key: Name
-          Value: change-me # please provide your own name
+          Value: 
+            Ref: TrainerName
 
   ApplicationSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
@@ -32,6 +39,20 @@ Resources:
           FromPort: "22"
           ToPort: "22"
           CidrIp: "0.0.0.0/0"
+  DeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: CDC-deploy
+      DeploymentConfigName: CodeDeployDefault.OneAtATime
+      ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
+      DeploymentGroupName: 
+        Ref: TrainerName
+      Ec2TagFilters:
+      - Key: Name
+        Type: KEY_AND_VALUE
+        Value: 
+          Ref: TrainerName
+
 Outputs:
   PublicIP:
     Description: "Public IP"
