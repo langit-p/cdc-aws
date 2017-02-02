@@ -42,7 +42,6 @@ Resources:
 
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application
-    Condition: CreateCodeDeployApp
     Properties:
       ApplicationName: 
         Ref: TrainerName
