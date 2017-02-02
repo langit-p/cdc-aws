@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Application Server with public ip
 Parameters:
-  TrainerName:
+  ApplicationName:
     Default: change-me
-    Description: "Trainer name"
+    Description: "Application Name"
     Type: String
 Resources:
   ApplicationServer:
@@ -23,7 +23,7 @@ Resources:
       Tags:
         - Key: Name
           Value: 
-            Ref: TrainerName
+            Ref: ApplicationName
 
   ApplicationSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
@@ -44,7 +44,7 @@ Resources:
     Type: AWS::CodeDeploy::Application
     Properties:
       ApplicationName: 
-        Ref: TrainerName
+        Ref: ApplicationName
 
 Outputs:
   PublicIP:
