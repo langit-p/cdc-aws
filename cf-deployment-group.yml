@@ -13,7 +13,8 @@ Resources:
   DeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
-      ApplicationName: CDC-deploy
+      ApplicationName:
+        Ref: ApplicationName
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
       DeploymentGroupName: 
