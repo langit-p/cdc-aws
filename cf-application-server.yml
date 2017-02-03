@@ -5,6 +5,7 @@ Parameters:
     Default: change-me
     Description: "Application Name"
     Type: String
+  
 Resources:
   ApplicationServer:
     Type: "AWS::EC2::Instance"
@@ -45,6 +46,21 @@ Resources:
     Properties:
       ApplicationName: 
         Ref: ApplicationName
+
+  DeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName:
+        Ref: ApplicationName
+      DeploymentConfigName: CodeDeployDefault.OneAtATime
+      ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
+      DeploymentGroupName: 
+        Ref: ApplicationName
+      Ec2TagFilters:
+      - Key: Name
+        Type: KEY_AND_VALUE
+        Value: 
+          Ref: ApplicationName
 
 Outputs:
   PublicIP:
