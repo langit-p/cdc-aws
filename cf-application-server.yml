@@ -5,7 +5,7 @@ Parameters:
     Default: change-me
     Description: "Application Name"
     Type: String
-  
+
 Resources:
   ApplicationServer:
     Type: "AWS::EC2::Instance"
@@ -49,6 +49,7 @@ Resources:
 
   DeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
+    DependsOn: CodeDeployApplication
     Properties:
       ApplicationName:
         Ref: ApplicationName
