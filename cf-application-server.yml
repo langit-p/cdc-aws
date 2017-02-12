@@ -62,21 +62,6 @@ Resources:
         Type: KEY_AND_VALUE
         Value: 
           Ref: ApplicationName
-  
-  DeploymentGroup:
-    Type: AWS::CodeDeploy::DeploymentGroup
-    DependsOn: CodeDeployApplication
-    Properties:
-      ApplicationName:
-        Ref: ApplicationName
-      DeploymentConfigName: CodeDeployDefault.OneAtATime
-      ServiceRoleArn: arn:aws:iam::019908562201:role/CodeDeploy_DemoApplication
-      DeploymentGroupName: DEV
-      Ec2TagFilters:
-      - Key: Name
-        Type: KEY_AND_VALUE
-        Value: 
-          Ref: ApplicationName
 
 Outputs:
   PublicIP:
