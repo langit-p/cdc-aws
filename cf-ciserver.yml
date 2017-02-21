@@ -4,7 +4,7 @@ Resources:
   CIServer: #An inline comment
     Type: "AWS::EC2::Instance"
     Properties: 
-      ImageId: "ami-dafd49b9" # ci server
+      ImageId: "ami-70ff4b13" # ci server
       InstanceType: t2.small
       KeyName: "mitrais-ap-southeast-1"
       NetworkInterfaces: 
